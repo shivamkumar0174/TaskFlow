@@ -26,6 +26,45 @@ h1{
   font-weight: 700;
   letter-spacing: 1px;
 }
+.filter-buttons{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.filter-buttons button{
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  transition: 0.3s;
+}
+
+.filter-buttons button:hover{
+  background: rgba(255,255,255,0.22);
+}
+#searchInput{
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+
+  border: none;
+  outline: none;
+  border-radius: 12px;
+
+  font-size: 15px;
+
+  background: rgba(255,255,255,0.12);
+  color: white;
+}
+
+#searchInput::placeholder{
+  color: rgba(255,255,255,0.7);
+}
+
 .input-section{
   display: flex;
   gap: 12px;
@@ -128,9 +167,6 @@ li:hover{
   transform: scale(1.05);
 }
 
-
-/* ================= COMPLETE BUTTON ================= */
-
 .CompleteBtn{
   background: linear-gradient(135deg,#53d66f,#44ff2b);
   border: none;
@@ -145,14 +181,31 @@ li:hover{
 .CompleteBtn:hover{
   transform: scale(1.05);
 }
-/* ================= COMPLETED TASK ================= */
 
 .Complete-Btn{
   text-decoration: line-through;
   opacity: 0.6;
   color: black;
 }
-/* ================= PROGRESS BAR ================= */
+#toast{
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
+  transition: 0.4s ease;
+  z-index: 1000;
+}
+#toast.show{
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .progress-container{
   width: 100%;

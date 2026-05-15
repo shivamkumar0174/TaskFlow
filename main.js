@@ -3,6 +3,11 @@ const button = document.querySelector("#btn");
 const list = document.querySelector("#taskList");
 const progressBar = document.querySelector("#progressBar");
 const progressText = document.querySelector("#progressText");
+const searchInput = document.querySelector("#searchInput");
+const allBtn = document.querySelector("#allBtn");
+const completedBtn = document.querySelector("#completedBtn");
+const pendingBtn = document.querySelector("#pendingBtn");
+const toast = document.querySelector("#toast");
 
 
 button.addEventListener("click", addTask);
@@ -10,6 +15,23 @@ button.addEventListener("click", addTask);
 inputEl.addEventListener("keypress", (e) => {
   if (e.key === "Enter") addTask();
 });
+
+searchInput.addEventListener("input",searchTask);
+
+function searchTask(){
+  const searchText = searchInput.value.toLowerCase();
+  const tasks = document.querySelectorAll("#taskList li");
+   tasks.forEach((task) => {
+
+      const taskText = task.firstChild.textContent.toLowerCase();
+
+      if(taskText.includes(searchText)){
+         task.style.display = "flex";
+      }else{
+         task.style.display = "none";
+      }
+   });
+}
 
 function addTask(taskData = null) {
  const text = taskData ? taskData.text : inputEl.value.trim();
@@ -39,6 +61,7 @@ function addTask(taskData = null) {
 
     updateProgress();
     saveTask();
+    showToast("❌ Task Deleted");
   }
 
   //Edit button
@@ -52,6 +75,7 @@ function addTask(taskData = null) {
     if (newTask !== null && newTask !== "") {
       li.firstChild.textContent = newTask;
       saveTask();
+      showToast("✏️ Task Updated");
     }
   }
 
@@ -67,9 +91,10 @@ function addTask(taskData = null) {
 
     updateProgress();
     saveTask();
+    showToast("🎉 Task Completed");
   }
-    saveTask();
-
+  saveTask();
+  showToast("✅ Task Added");
   updateProgress();
 
 }
@@ -114,10 +139,55 @@ function loadTask() {
   if (tasks.length === 0) return;
 
   tasks.forEach((task) => {
-
     addTask(task);
-
   });
 
 }
 window.onload = loadTask;
+
+// Filter Function
+allBtn.addEventListener("click", showAllTasks);
+completedBtn.addEventListener("click", showCompletedTasks);
+pendingBtn.addEventListener("click", showPendingTasks);
+
+function showAllTasks(){
+
+   const tasks = document.querySelectorAll("#taskList li");
+   tasks.forEach((task) => {
+      task.style.display = "flex";
+   });
+}
+
+function showCompletedTasks(){
+
+   const tasks = document.querySelectorAll("#taskList li");
+   tasks.forEach((task) => {
+      if(task.classList.contains("Complete-Btn")){
+         task.style.display = "flex";
+      }else{
+         task.style.display = "none";
+      }
+   });
+}
+
+function showPendingTasks(){
+   const tasks = document.querySelectorAll("#taskList li");
+   tasks.forEach((task) => {
+      if(!task.classList.contains("Complete-Btn")){
+         task.style.display = "flex";
+      }else{
+         task.style.display = "none";
+      }
+   });
+}
+
+//Toast Function
+function showToast(message){
+
+   toast.textContent = message;
+   toast.classList.add("show");
+   setTimeout(() => {
+      toast.classList.remove("show");
+   }, 2000);
+
+}
